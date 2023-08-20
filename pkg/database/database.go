@@ -10,15 +10,6 @@ import (
 
 var Db *gorm.DB
 
-type Config struct {
-	Host     string
-	Port     string
-	Password string
-	User     string
-	DBName   string
-	SSLMode  string
-}
-
 func init() {
 	port, err := strconv.Atoi("5432")
 	if err != nil {
@@ -38,6 +29,7 @@ func init() {
 	if err != nil {
 		panic(fmt.Sprintf("Unabled to auto migrate database:", err))
 	}
+
 	Db = db
 
 }

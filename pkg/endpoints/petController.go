@@ -36,3 +36,8 @@ func HandleGetPet(c *fiber.Ctx) error {
 	}
 	return c.JSON(pet)
 }
+
+func SavePet(c *fiber.Ctx) error {
+	//TODO: implement
+	return nil
+}
