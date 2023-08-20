@@ -5,9 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/template/html/v2"
 	"github.com/joho/godotenv"
-	"os"
 	"pauldieterich/go_fiber_pet/pkg/database"
-
 	"pauldieterich/go_fiber_pet/pkg/endpoints"
 )
 
@@ -29,21 +27,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	config := &database.Config{
-		Host:     os.Getenv("DB_HOST"),
-		Port:     os.Getenv("DB_PORT"),
-		Password: os.Getenv("DB_PASS"),
-		User:     os.Getenv("DB_USER"),
-		SSLMode:  os.Getenv("DB_SSLMODE"),
-		DBName:   os.Getenv("DB_NAME"),
-	}
-	db, err := database.Connect(config)
-	if err != nil {
+	if _, err := database.Db.DB(); err != nil {
 		log.Fatal("could not connect to database")
 	}
-	petRepository := database.Repository{
-		DB: db,
-	}
+
 	engine := html.New("./views", ".html")
 
 	app := fiber.New(fiber.Config{

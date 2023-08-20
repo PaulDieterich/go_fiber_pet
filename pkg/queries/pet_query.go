@@ -1,38 +1,39 @@
-package database
+package queries
 
 import (
 	"gorm.io/gorm"
-	"pauldieterich/go_fiber_pet/models"
+	"pauldieterich/go_fiber_pet/pkg/database"
+	"pauldieterich/go_fiber_pet/pkg/models"
 )
 
 type PetRepository struct {
 	DB *gorm.DB
 }
 
-func (r *PetRepository) DeletePet(id int) error {
+func DeletePet(id int) error {
 	petModel := models.Pet{}
 
-	res := r.DB.Delete(petModel, id)
+	res := database.Db.Delete(petModel, id)
 	if res.Error != nil {
 		return res.Error
 	}
 	return nil
 }
 
-func (r *PetRepository) GetPetById(id int) (*models.Pet, error) {
+func GetPetById(id int) (*models.Pet, error) {
 	petModel := models.Pet{}
 
-	result := r.DB.Where("id: ?", id).Find(petModel)
+	result := database.Db.Where("id=?", id).Find(&petModel)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return &petModel, nil
 }
 
-func (r *PetRepository) GetPets() ([]models.Pet, error) {
+func GetPets() ([]models.Pet, error) {
 	petModels := &[]models.Pet{}
 
-	result := r.DB.Find(petModels)
+	result := database.Db.Find(&petModels)
 
 	if result.Error != nil {
 		return nil, result.Error
@@ -41,9 +42,9 @@ func (r *PetRepository) GetPets() ([]models.Pet, error) {
 
 }
 
-func (r *PetRepository) Save(p *models.Pet) error {
+func Save(p *models.Pet) error {
 
-	result := r.DB.Create(&p)
+	result := database.Db.Create(&p)
 
 	if result.Error != nil {
 		return result.Error

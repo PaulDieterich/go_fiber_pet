@@ -1,13 +1,11 @@
 package endpoints
 
 import (
-	"pauldieterich/go_fiber_pet/pkg/database"
+	"pauldieterich/go_fiber_pet/pkg/queries"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
-
-var petRepo = database.PetRepository{}
 
 func HandelDeltePet(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -16,7 +14,7 @@ func HandelDeltePet(c *fiber.Ctx) error {
 		if err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, "Invalid ID")
 		}
-		err = database.PetRepository.DeletePet(petRepo, idInt)
+		err = queries.DeletePet(idInt)
 		if err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, "Could not delete pet")
 
@@ -32,7 +30,7 @@ func HandleGetPet(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid ID")
 	}
-	pet, err := database.PetRepository.GetPetById(petRepo, id)
+	pet, err := queries.GetPetById(id)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get pet")
 	}
