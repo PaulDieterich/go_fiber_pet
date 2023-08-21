@@ -1,10 +1,10 @@
 package endpoints
 
 import (
+	"github.com/gofiber/fiber/v2"
+	"pauldieterich/go_fiber_pet/pkg/models"
 	"pauldieterich/go_fiber_pet/pkg/queries"
 	"strconv"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 func HandelDeltePet(c *fiber.Ctx) error {
@@ -36,8 +36,18 @@ func HandleGetPet(c *fiber.Ctx) error {
 	}
 	return c.JSON(pet)
 }
-
-func SavePet(c *fiber.Ctx) error {
-	//TODO: implement
+func HandelGetAllPets(c *fiber.Ctx) error {
+	//TODO implement
 	return nil
+}
+func SavePet(c *fiber.Ctx) error {
+	newPet := models.Pet{}
+	c.Accepts("application/json")
+	if err := c.BodyParser(&newPet); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+	if err := queries.Save(&newPet); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(newPet)
 }

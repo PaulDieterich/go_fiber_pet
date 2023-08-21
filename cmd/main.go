@@ -38,6 +38,8 @@ func main() {
 	})
 
 	app.Get("/", helloWorld)
+	app.Get("/pets", endpoints.HandelGetAllPets)
+	app.Post("/pets", endpoints.SavePet)
 	app.Get("/pets/:id", endpoints.HandleGetPet)
 	app.Delete("/pets/:id", endpoints.HandelDeltePet)
 
