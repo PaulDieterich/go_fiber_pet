@@ -1,14 +1,9 @@
 package queries
 
 import (
-	"gorm.io/gorm"
 	"pauldieterich/go_fiber_pet/pkg/database"
 	"pauldieterich/go_fiber_pet/pkg/models"
 )
-
-type PetRepository struct {
-	DB *gorm.DB
-}
 
 func DeletePet(id int) error {
 	petModel := models.Pet{}
