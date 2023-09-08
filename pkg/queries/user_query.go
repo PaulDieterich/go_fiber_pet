@@ -45,3 +45,8 @@ func DeleteUser(id int) error {
 	}
 	return nil
 }
+func SaveUser(user *models.User) error {
+
+	//TODO: implement
+	return nil
+}

@@ -49,11 +49,11 @@ func main() {
 	users := v1.Group("/users")
 	users.Get("/", endpoints.HandelGetAllUsers)
 	//TODO: implement
-	users.Post("/")
-	users.Get("/:id")
-	users.Put("/:id")
-	users.Delete("/id")
-	users.Get("/:id/details")
+	users.Post("/", endpoints.HandelSaveUser)
+	users.Get("/:id", endpoints.HandelGetUser)
+	users.Put("/:id", endpoints.HandelEditUser)
+	users.Delete("/:id", endpoints.HandelDeleteUser)
+	users.Get("/:id/details", endpoints.HandelUserDerails)
 
 	app.Listen(":3000")
 

@@ -37,8 +37,11 @@ func HandleGetPet(c *fiber.Ctx) error {
 	return c.JSON(pet)
 }
 func HandelGetAllPets(c *fiber.Ctx) error {
-	//TODO implement
-	return nil
+	pets, err := queries.GetPets()
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, "Could not find any pets")
+	}
+	return c.JSON(pets)
 }
 func SavePet(c *fiber.Ctx) error {
 	newPet := models.Pet{}
