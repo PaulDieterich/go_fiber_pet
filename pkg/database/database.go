@@ -25,7 +25,7 @@ func init() {
 	if err != nil {
 		panic("failed to connect to database")
 	}
-	err = db.AutoMigrate(&models.Pet{}, &models.User{})
+	err = db.AutoMigrate(&models.Pet{}, &models.User{}, &models.Role{})
 	if err != nil {
 		panic(fmt.Sprintf("Unabled to auto migrate database:", err))
 	}
