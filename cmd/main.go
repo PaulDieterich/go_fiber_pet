@@ -36,13 +36,30 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
-
+	api := app.Group("/api")
+	v1 := api.Group("/v1", apiHandler)
 	app.Get("/", helloWorld)
-	app.Get("/pets", endpoints.HandelGetAllPets)
-	app.Post("/pets", endpoints.SavePet)
-	app.Get("/pets/:id", endpoints.HandleGetPet)
-	app.Delete("/pets/:id", endpoints.HandelDeltePet)
+
+	pets := v1.Group("/pets")
+	pets.Get("/", endpoints.HandelGetAllPets)
+	pets.Post("/", endpoints.SavePet)
+	pets.Get("/:id", endpoints.HandleGetPet)
+	pets.Delete("/:id", endpoints.HandelDeltePet)
+
+	users := v1.Group("/users")
+	users.Get("/", endpoints.HandelGetAllUsers)
+	//TODO: implement
+	users.Post("/")
+	users.Get("/:id")
+	users.Put("/:id")
+	users.Delete("/id")
+	users.Get("/:id/details")
 
 	app.Listen(":3000")
 
+}
+
+func apiHandler(ctx *fiber.Ctx) error {
+	ctx.Set("Version", "v1")
+	return ctx.Next()
 }
